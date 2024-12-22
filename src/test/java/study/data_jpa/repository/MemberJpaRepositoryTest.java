@@ -22,6 +22,7 @@ class MemberJpaRepositoryTest {
 
     @Test
     public void testMember() {
+        System.out.println("memberRepository = " + memberJpaRepository.getClass());
         Member member = new Member("memberA");
         Member savedMember = memberJpaRepository.save(member);
 
@@ -45,21 +46,19 @@ class MemberJpaRepositoryTest {
         assertThat(findMember1).isEqualTo(member1);
         assertThat(findMember2).isEqualTo(member2);
 
-        findMember1.setUsername("AAASSSDDDFFF");
+        // 리스트 조회 검증
+        List<Member> all = memberJpaRepository.findAll();
+        assertThat(all.size()).isEqualTo(2);
 
-//        // 리스트 조회 검증
-//        List<Member> all = memberJpaRepository.findAll();
-//        assertThat(all.size()).isEqualTo(2);
-//
-//        // 카운트 검증
-//        long count = memberJpaRepository.count();
-//        assertThat(count).isEqualTo(2);
-//
-//        // 삭제 검증
-//        memberJpaRepository.delete(findMember1);
-//        memberJpaRepository.delete(findMember2);
-//
-//        long deletedCount = memberJpaRepository.count();
-//        assertThat(deletedCount).isEqualTo(0);
+        // 카운트 검증
+        long count = memberJpaRepository.count();
+        assertThat(count).isEqualTo(2);
+
+        // 삭제 검증
+        memberJpaRepository.delete(findMember1);
+        memberJpaRepository.delete(findMember2);
+
+        long deletedCount = memberJpaRepository.count();
+        assertThat(deletedCount).isEqualTo(0);
     }
 }
